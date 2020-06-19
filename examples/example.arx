@@ -1,0 +1,13 @@
+wrap Person [
+    i32 age;
+]
+
+fun main(String[] args) {
+    let person = Person(age: 17);
+    let person2 = Person(age: 19);
+    println(add_age(person.age, person2.age));
+}
+
+fun add_age(i32 x, i32 y): i32 {
+    x + y;
+}

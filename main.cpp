@@ -1,6 +1,8 @@
 #include <iostream>
+#include "lexer.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    Lexer lexer(R"(C:\Users\xboxl\CLionProjects\Aerx\examples\example.arx)");
+    std::cout << lexer.contents << std::endl;
     return 0;
 }
