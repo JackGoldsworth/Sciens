@@ -2,9 +2,11 @@
 
 class Lexer {
 public:
-    std::string contents;
+    char* contents;
     Lexer(const std::string& fileName);
     void analyzeFile();
 private:
-    std::string readFile(const std::string& fileName);
+    int lineNumber;
+    char* readFile(const std::string& fileName);
+    void next(const char& character);
 };
