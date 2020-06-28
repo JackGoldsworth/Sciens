@@ -15,7 +15,7 @@ add_definitions(${LLVM_DEFINITIONS})
 
 include_directories(src)
 
-add_executable(Aerx main.cpp src/lexer.cpp src/lexer.h src/token.h)
+add_executable(Aerx src/lexer.cpp src/lexer.h src/token.h src/compiler.cpp)
 
 llvm_map_components_to_libnames(llvm_libs support core irreader)
 

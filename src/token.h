@@ -20,5 +20,10 @@ enum TokenType {
     LEFT_PARENTHESES,     // (
     RIGHT_PARENTHESES,    // )
 
-    EOF
+    WRAP,                 // wrap
+    FUNCTION,             // fun
+    LET,                  // let
+    println,              // println
+
+    EOF_TOKEN
 };

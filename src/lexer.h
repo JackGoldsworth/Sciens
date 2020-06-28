@@ -1,12 +1,13 @@
 #include "fstream"
+#include <vector>
 
 class Lexer {
 public:
-    char* contents;
-    Lexer(const std::string& fileName);
+    std::vector<char> tokenBuffer;
+    explicit Lexer(const std::string& fileName);
     void analyzeFile();
 private:
     int lineNumber;
-    char* readFile(const std::string& fileName);
-    void next(const char& character);
+    std::vector<char> contents;
+    static std::vector<char> readFile(const std::string& fileName);
 };
