@@ -9,5 +9,7 @@ public:
 private:
     int lineNumber;
     std::vector<char> contents;
+    bool isToken();
+    void syntaxError(char character);
     static std::vector<char> readFile(const std::string& fileName);
 };

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(Aerx)
+project(Sciens)
 set(CMAKE_CXX_STANDARD 14)
 
 find_package(LLVM REQUIRED)
@@ -15,9 +15,9 @@ add_definitions(${LLVM_DEFINITIONS})
 
 include_directories(src)
 
-add_executable(Aerx src/lexer.cpp src/lexer.h src/token.h src/compiler.cpp)
+add_executable(Sciens src/lexer.cpp src/lexer.h src/token.h src/compiler.cpp)
 
 llvm_map_components_to_libnames(llvm_libs support core irreader)
 
 # Link against LLVM libraries
-target_link_libraries(Aerx ${llvm_libs})
+target_link_libraries(Sciens ${llvm_libs})
