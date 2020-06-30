@@ -1,37 +1,29 @@
 #include <iostream>
 #include "lexer.h"
-#include "token.h"
 
 Lexer::Lexer(const std::string &fileName) {
     contents = readFile(fileName);
+    currentChar = 0;
     lineNumber = 1;
 }
 
-void Lexer::analyzeFile() {
-    for (auto character : contents) {
-        if (character == '\n') {
+TokenType Lexer::next() {
+    char character = contents[currentChar++];
+    switch (character) {
+        case '\n':
             lineNumber++;
             isToken();
-            continue;
-        } else if (character == ' ') {
+            break;
+        case ' ':
             isToken();
-            continue;
-        } else if (character == ';') {
+            break;
+        case ';':
             isToken();
-            continue;
-        } else if (character == '{') {
-            isToken();
-            continue;
-        } else if (character == '}') {
-            if(!tokenBuffer.empty() && tokenBuffer[0] == '{') {
-                isToken();
-                continue;
-            }
-            syntaxError('}');
-        }
-        tokenBuffer.push_back(character);
+            return SEMI_COLON;
+        default:
+            tokenBuffer.push_back(character);
     }
-    std::cout << "Number of lines: " << lineNumber << std::endl;
+    return NOT_FOUND;
 }
 
 bool Lexer::isToken() {
@@ -41,10 +33,6 @@ bool Lexer::isToken() {
         return true;
     }
     return false;
-}
-
-void Lexer::syntaxError(char character) {
-    std::cout << "There was an unexpected character: " << character << " on line " << lineNumber << std::endl;
 }
 
 std::vector<char> Lexer::readFile(const std::string &fileName) {

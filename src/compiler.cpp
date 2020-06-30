@@ -1,7 +1,7 @@
-#include "lexer.h"
+#include "parser.h"
 
 int main() {
-    Lexer lexer(R"(C:\Users\xboxl\CLionProjects\Sciens\examples\example.arx)");
-    lexer.analyzeFile();
+    Parser parser;
+    parser.parseFile(R"(C:\Users\xboxl\CLionProjects\Sciens\examples\example.scns)");
     return 0;
 }

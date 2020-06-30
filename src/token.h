@@ -25,5 +25,6 @@ enum TokenType {
     LET,                  // let
     println,              // println
 
-    EOF_TOKEN
+    EOF_TOKEN,
+    NOT_FOUND
 };
