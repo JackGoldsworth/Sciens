@@ -2,37 +2,58 @@
 #include "lexer.h"
 
 Lexer::Lexer(const std::string &fileName) {
+    insertTokens();
     contents = readFile(fileName);
     currentChar = 0;
     lineNumber = 1;
 }
 
-TokenType Lexer::next() {
+std::pair<TokenType, TokenType> Lexer::next() {
     char character = contents[currentChar++];
     switch (character) {
         case '\n':
             lineNumber++;
-            isToken();
+            isToken(NOT_FOUND);
             break;
         case ' ':
-            isToken();
+            isToken(NOT_FOUND);
             break;
         case ';':
-            isToken();
-            return SEMI_COLON;
+            return isToken(SEMI_COLON);
+        case '[':
+            return isToken(LEFT_SQUARE_BRACKET);
+        case ']':
+            return isToken(RIGHT_SQUARE_BRACKET);
+        case '(':
+            return isToken(LEFT_CURLY_BRACKET);
+        case ')':
+            return isToken(RIGHT_CURLY_BRACKET);
+        case ':':
+            return isToken(COLON);
         default:
             tokenBuffer.push_back(character);
     }
-    return NOT_FOUND;
+    return std::pair<TokenType, TokenType>(NOT_FOUND, NOT_FOUND);
 }
 
-bool Lexer::isToken() {
+std::pair<TokenType, TokenType> Lexer::isToken(TokenType type) {
     if (!tokenBuffer.empty()) {
-        std::cout << "TOKEN FOUND: " << std::string(tokenBuffer.begin(), tokenBuffer.end()) << std::endl;
+        std::string tokenChars = std::string(tokenBuffer.begin(), tokenBuffer.end());
+        std::cout << "TOKEN FOUND: " << tokenChars << std::endl;
         tokenBuffer.clear();
-        return true;
+        try {
+            TokenType firstToken = tokens.at(tokenChars);
+            return std::pair<TokenType, TokenType>(firstToken, type);
+        } catch (const std::out_of_range& oor) {
+            return std::pair<TokenType, TokenType>(IDENTIFIER, type);
+        }
     }
-    return false;
+    return std::pair<TokenType, TokenType>();
+}
+
+void Lexer::insertTokens() {
+    tokens["if"] = IF;
+    tokens["else"] = ELSE;
 }
 
 std::vector<char> Lexer::readFile(const std::string &fileName) {
