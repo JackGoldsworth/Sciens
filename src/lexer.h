@@ -10,17 +10,22 @@ public:
     std::vector<char> contents;
     std::unordered_map<std::string, TokenType> tokens;
 
+    char endTokenBuffer;
+    std::string identifierBuffer;
+
     int lineNumber;
 
     explicit Lexer(const std::string &fileName);
 
-    std::pair<TokenType, TokenType> next();
+    TokenType next();
 
 private:
 
     int currentChar;
 
-    std::pair<TokenType, TokenType> isToken(TokenType type);
+    TokenType isToken();
+
     void insertTokens();
+
     static std::vector<char> readFile(const std::string &fileName);
 };

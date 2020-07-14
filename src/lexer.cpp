@@ -8,47 +8,61 @@ Lexer::Lexer(const std::string &fileName) {
     lineNumber = 1;
 }
 
-std::pair<TokenType, TokenType> Lexer::next() {
+TokenType Lexer::next() {
     char character = contents[currentChar++];
+    if (endTokenBuffer != NULL) {
+        endTokenBuffer = NULL;
+    }
+    if (!identifierBuffer.empty()) {
+        identifierBuffer = "";
+    }
     switch (character) {
         case '\n':
             lineNumber++;
-            isToken(NOT_FOUND);
-            break;
+            return isToken();
         case ' ':
-            isToken(NOT_FOUND);
-            break;
+            return isToken();
         case ';':
-            return isToken(SEMI_COLON);
+            endTokenBuffer = ';';
+            return isToken();
         case '[':
-            return isToken(LEFT_SQUARE_BRACKET);
+            endTokenBuffer = '[';
+            return isToken();
         case ']':
-            return isToken(RIGHT_SQUARE_BRACKET);
+            endTokenBuffer = ']';
+            return isToken();
         case '(':
-            return isToken(LEFT_CURLY_BRACKET);
+            endTokenBuffer = '(';
+            return isToken();
         case ')':
-            return isToken(RIGHT_CURLY_BRACKET);
+            endTokenBuffer = ')';
+            return isToken();
         case ':':
-            return isToken(COLON);
+            endTokenBuffer = ':';
+            return isToken();
+        case ',':
+            endTokenBuffer = ',';
+            return isToken();
         default:
             tokenBuffer.push_back(character);
     }
-    return std::pair<TokenType, TokenType>(NOT_FOUND, NOT_FOUND);
+    return NOT_FOUND;
 }
 
-std::pair<TokenType, TokenType> Lexer::isToken(TokenType type) {
+TokenType Lexer::isToken() {
     if (!tokenBuffer.empty()) {
         std::string tokenChars = std::string(tokenBuffer.begin(), tokenBuffer.end());
-        std::cout << "TOKEN FOUND: " << tokenChars << std::endl;
-        tokenBuffer.clear();
         try {
             TokenType firstToken = tokens.at(tokenChars);
-            return std::pair<TokenType, TokenType>(firstToken, type);
-        } catch (const std::out_of_range& oor) {
-            return std::pair<TokenType, TokenType>(IDENTIFIER, type);
+            tokenBuffer.clear();
+            return firstToken;
+        } catch (const std::out_of_range &oor) {
+            identifierBuffer = tokenChars;
+            tokenBuffer.clear();
+            return IDENTIFIER;
         }
     }
-    return std::pair<TokenType, TokenType>();
+    return NOT_FOUND;
 }
 
 void Lexer::insertTokens() {
