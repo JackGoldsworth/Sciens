@@ -1,6 +1,10 @@
-#include "string"
+#include <string>
+#include <list>
+#include "lexer.h"
 
 class Parser {
 public:
-    void parseFile(const std::string& fileName);
+    std::list<Token> tokenList;
+
+    void parseFile(const std::string &fileName);
 };

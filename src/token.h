@@ -19,6 +19,7 @@ enum TokenType {
     RIGHT_SQUARE_BRACKET, // ]
     LEFT_PARENTHESES,     // (
     RIGHT_PARENTHESES,    // )
+    COMMA,                // ,
 
     WRAP,                 // wrap
     FUNCTION,             // fun

@@ -8,66 +8,70 @@ Lexer::Lexer(const std::string &fileName) {
     lineNumber = 1;
 }
 
-TokenType Lexer::next() {
+Token Lexer::next() {
     char character = contents[currentChar++];
-    if (endTokenBuffer != NULL) {
-        endTokenBuffer = NULL;
-    }
-    if (!identifierBuffer.empty()) {
-        identifierBuffer = "";
-    }
+    Token tempToken;
     switch (character) {
         case '\n':
             lineNumber++;
-            return isToken();
+            return isToken(tempToken, "\n");
         case ' ':
-            return isToken();
+            return isToken(tempToken, " ");
         case ';':
-            endTokenBuffer = ';';
-            return isToken();
+            return isToken(tempToken, ";");
         case '[':
-            endTokenBuffer = '[';
-            return isToken();
+            return isToken(tempToken, "[");
         case ']':
-            endTokenBuffer = ']';
-            return isToken();
+            return isToken(tempToken, "]");
         case '(':
-            endTokenBuffer = '(';
-            return isToken();
+            return isToken(tempToken, "(");
         case ')':
-            endTokenBuffer = ')';
-            return isToken();
+            return isToken(tempToken, ")");
         case ':':
-            endTokenBuffer = ':';
-            return isToken();
+            return isToken(tempToken, ":");
         case ',':
-            endTokenBuffer = ',';
-            return isToken();
+            return isToken(tempToken, ",");
         default:
             tokenBuffer.push_back(character);
+            tempToken.type = NOT_FOUND;
+            return tempToken;
     }
-    return NOT_FOUND;
 }
 
-TokenType Lexer::isToken() {
+Token Lexer::isToken(Token &token, const std::string &endingChar) {
+    if (endingChar != " " && endingChar != "\n") {
+        auto endingToken = new EndingToken;
+        endingToken->type = tokens[endingChar];
+        endingToken->value = std::string(endingChar);
+        token.endingToken = endingToken;
+    }
+
     if (!tokenBuffer.empty()) {
         std::string tokenChars = std::string(tokenBuffer.begin(), tokenBuffer.end());
         try {
             TokenType firstToken = tokens.at(tokenChars);
-            tokenBuffer.clear();
-            return firstToken;
+            token.type = firstToken;
         } catch (const std::out_of_range &oor) {
-            identifierBuffer = tokenChars;
-            tokenBuffer.clear();
-            return IDENTIFIER;
+            token.type = IDENTIFIER;
         }
+        token.value = tokenChars;
+        tokenBuffer.clear();
+        return token;
     }
-    return NOT_FOUND;
+    token.type = NOT_FOUND;
+    return token;
 }
 
 void Lexer::insertTokens() {
     tokens["if"] = IF;
     tokens["else"] = ELSE;
+    tokens[";"] = SEMI_COLON;
+    tokens["["] = LEFT_SQUARE_BRACKET;
+    tokens["]"] = RIGHT_SQUARE_BRACKET;
+    tokens["("] = LEFT_PARENTHESES;
+    tokens[")"] = RIGHT_PARENTHESES;
+    tokens[":"] = COLON;
+    tokens[","] = COMMA;
 }
 
 std::vector<char> Lexer::readFile(const std::string &fileName) {
