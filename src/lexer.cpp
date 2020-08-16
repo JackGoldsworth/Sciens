@@ -40,7 +40,7 @@ Token Lexer::next() {
 
 Token Lexer::isToken(Token &token, const std::string &endingChar) {
     if (endingChar != " " && endingChar != "\n") {
-        auto endingToken = new EndingToken;
+        auto endingToken = new Token;
         endingToken->type = tokens[endingChar];
         endingToken->value = std::string(endingChar);
         token.endingToken = endingToken;

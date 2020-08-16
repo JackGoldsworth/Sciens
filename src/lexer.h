@@ -4,15 +4,10 @@
 #include <unordered_map>
 #include <utility>
 
-struct EndingToken {
-    std::string value;
-    TokenType type;
-};
-
 struct Token {
     std::string value;
     TokenType type;
-    EndingToken *endingToken = nullptr;
+    Token *endingToken = nullptr;
 };
 
 class Lexer {
