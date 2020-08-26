@@ -7,4 +7,9 @@ public:
     std::list<Token> tokenList;
 
     void parseFile(const std::string &fileName);
+
+private:
+    Lexer* lexer;
+
+    bool validateTokens();
 };

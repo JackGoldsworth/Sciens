@@ -55,6 +55,8 @@ Token Lexer::isToken(Token &token, const std::string &endingChar) {
             token.type = IDENTIFIER;
         }
         token.value = tokenChars;
+        token.lineNumber = lineNumber;
+        token.charNumber = currentChar;
         tokenBuffer.clear();
         return token;
     }
@@ -63,6 +65,7 @@ Token Lexer::isToken(Token &token, const std::string &endingChar) {
 }
 
 void Lexer::insertTokens() {
+    tokens["wrap"] = WRAP;
     tokens["if"] = IF;
     tokens["else"] = ELSE;
     tokens[";"] = SEMI_COLON;

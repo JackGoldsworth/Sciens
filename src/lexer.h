@@ -5,6 +5,8 @@
 #include <utility>
 
 struct Token {
+    int lineNumber;
+    int charNumber;
     std::string value;
     TokenType type;
     Token *endingToken = nullptr;

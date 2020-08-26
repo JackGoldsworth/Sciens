@@ -1,4 +1,4 @@
-wrap Person [
+wrap [
     i32 age;
 ]
 

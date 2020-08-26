@@ -2,6 +2,6 @@
 
 int main() {
     Parser parser;
-    parser.parseFile(R"(C:\Users\xboxl\CLionProjects\Sciens\examples\example.scns)");
+    parser.parseFile(R"(C:\Users\xboxl\Programming\Sciens\examples\example.scns)");
     return 0;
 }
